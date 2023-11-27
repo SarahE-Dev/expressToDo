@@ -5,6 +5,7 @@ const uuidv4 = require('uuid').v4;
 router.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    res.header("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE")
     next();
   });
 
@@ -140,8 +141,8 @@ router.put('/mark-done/:id', (req, res)=>{
     }
 })
 
-router.delete('/delete-todo', (req, res)=>{
-    const {id} = req.body;
+router.delete('/delete-todo/:id', (req, res)=>{
+    const {id} = req.params;
     let found = false;
     if(!(id)){
         res.json({
@@ -161,7 +162,10 @@ router.delete('/delete-todo', (req, res)=>{
             }
         })
         todos = newTodos
+        
         res.json({todos})
+        
+        
     }
     if(found === false){
         res.json({

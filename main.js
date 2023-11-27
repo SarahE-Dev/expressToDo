@@ -1,6 +1,6 @@
 let todoArray = [];
 
-
+function makeList(){
 fetch("http://localhost:3000/api/todo/get-all-todos", {
 })
     .then(res => res.json())
@@ -23,19 +23,30 @@ fetch("http://localhost:3000/api/todo/get-all-todos", {
         })
         let buttons = document.querySelectorAll('button');
           buttons.forEach((elem)=>{
-            elem.addEventListener('click', ()=>{
+            elem.addEventListener('click', (e)=>{
                 console.log('test');
-                const options = {
-                    method: "DELETE",
-                    body: `{"id": "${elem.id}"}`
-                }
-                fetch('http://localhost:3000/api/todo/delete-todo', options)
-                    .then(res => res.json())
-                    .then(data=>{
-                        console.log(data);
-                    })
+                
+                console.log(e.target.id);
+                deleteFunc(e.target.id)
+                
             })
           })
 })
+}
+
+makeList()
+
+function deleteFunc(id){
+    const options = {
+        method: "DELETE"
+    }
+    fetch(`http://localhost:3000/api/todo/delete-todo/${id}`, options)
+                    .then(res => res.json())
+                    .then(data=>{
+                        console.log(data);
+                        document.querySelector('ol').innerHTML = '';
+                        makeList()
+                    })
+}
 
 
