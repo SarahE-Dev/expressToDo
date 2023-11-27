@@ -1,0 +1,28 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    background-color: black;
+}
+
+#header {
+    display: flex;
+    justify-content: center;
+    text-shadow: 1.5px -1px deeppink;
+    background: linear-gradient(to right, darkmagenta, blueviolet, dodgerblue)
+}
+button {
+    height: 15px;
+    display: flex;
+    
+    
+}
+
+.card {
+    width: 50vw;
+    margin-left: 25vw;
+    margin-top: 15vh;
+}

@@ -2,6 +2,12 @@ const express = require('express');
 const router = express.Router();
 const uuidv4 = require('uuid').v4;
 
+router.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+  });
+
 let todos = [
     {
         id: uuidv4(),
@@ -16,7 +22,7 @@ let todos = [
 ]
 
 router.get('/get-all-todos', (req, res)=>{
-    res.json(todos)
+    res.json({todos})
 })
 
 router.get('/get-todo-by-id/:id', (req, res)=>{
@@ -155,7 +161,7 @@ router.delete('/delete-todo', (req, res)=>{
             }
         })
         todos = newTodos
-        res.json(todos)
+        res.json({todos})
     }
     if(found === false){
         res.json({
