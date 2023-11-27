@@ -4,12 +4,12 @@ const uuidv4 = require('uuid').v4;
 
 let todos = [
     {
-        id: "haf24jd",
+        id: uuidv4(),
         todo: "do laundry",
         done: "false"
     },
     {
-        id: "jp2nkl2",
+        id: uuidv4(),
         todo: "wash dishes",
         done: "true"
     }
@@ -60,13 +60,13 @@ router.get('/get-todos-by-done/:done', (req, res)=>{
 })
 
 router.post('/create-new-todo', (req, res)=>{
-    const {todoT} = req.body;
+    const {todo} = req.body;
     let newTodo = {
         id: uuidv4(),
-        todo: todoT,
+        todo: todo,
         done: false
     }
-    if(!(todo.todoT)){
+    if(!(todo)){
         res.json({
             message: "You must enter a todo."
         })
@@ -104,26 +104,32 @@ router.put('/update-todo/:id', (req, res)=>{
 
 router.put('/mark-done/:id', (req, res)=>{
     const {id} = req.params;
-    let foundTodo = todos.filter((elem)=>{
+    let found = false;
+    let done;
+    let opposite;
+    todos.forEach((elem)=>{
         if(elem.id === id){
-            return elem
+            found = true;
+            if(elem.done === 'true'){
+                done = 'done';
+                opposite = 'incomplete'
+                elem.done = 'false'
+            }else if(elem.done === 'false'){
+                done = 'incomplete';
+                opposite = 'done'
+                elem.done = 'true'
+            }
         }
     })
-    if(foundTodo){
-        if(foundTodo.done === 'true'){
-            res.json({
-                message: "This todo was marked done and is now marked incomplete."
-            })
-        }
-        if(foundTodo.done === 'false'){
-            res.json({
-                message: "This todo was incomplete and is now marked done."
-            })
-        }
-    }
-    if(!(foundTodo)){
+    if(found === false){
         res.json({
             message: "There is no item with that ID."
+        })
+    }else if(found === true){
+        
+        res.json({
+            message: `This item was marked ${done} and is now marked ${opposite}.`,
+            array: todos
         })
     }
 })
@@ -148,7 +154,8 @@ router.delete('/delete-todo', (req, res)=>{
                 return elem
             }
         })
-        res.json(newTodos)
+        todos = newTodos
+        res.json(todos)
     }
     if(found === false){
         res.json({
