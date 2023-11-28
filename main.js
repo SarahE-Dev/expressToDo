@@ -1,14 +1,12 @@
 function makeList(){
-document.querySelector('ol').innerHTML = '';
-fetch("http://localhost:3000/api/todo/get-all-todos", {
-})
+
+fetch("http://localhost:3000/api/todo/get-all-todos")
     .then(res => res.json())
     .then(data=>{
-        console.log(data);
-        let counter = 0;
+        document.getElementById('todoList').innerHTML = ''
+        console.log(data)
         data.todos.forEach((elem)=>{
             console.log(elem);
-            counter++
             let doneBox;
             if(elem.done === 'true'){
                 doneBox = 'checked'
@@ -40,14 +38,18 @@ fetch("http://localhost:3000/api/todo/get-all-todos", {
 
             })
         })
-        document.querySelector('#addItem').addEventListener('click', ()=>{
-            
-            addTodo()
-        })
+        
 })
 }
 
 makeList()
+
+document.querySelector('#addItem').addEventListener('click', ()=>{
+            
+    addTodo()
+})
+
+
 
 function deleteFunc(id){
     const options = {
@@ -91,8 +93,11 @@ function addTodo(){
                     .then(res => res.json())
                     .then(data=>{
                         console.log(data);
-                        document.getElementById('newItem').value = ''
+                        document.getElementById('newItem').value = '';
+                        makeList()
                     })
+
+                
 }
 
 
