@@ -14,11 +14,15 @@ body{
     text-shadow: 1.5px -1px deeppink;
     background: linear-gradient(to right, darkmagenta, blueviolet, dodgerblue)
 }
-button {
+.buttons {
     height: 15px;
     display: flex;
     
     
+}
+
+#addItem {
+    background-color: blueviolet;
 }
 
 .card {
